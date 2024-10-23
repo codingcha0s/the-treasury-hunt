@@ -17,6 +17,20 @@ typedef enum {
     PLAYER = -1
 } TileType;
 
+void printWelcome() {
+    printf("Welcome to <The Treasury Hunt>\n\n");
+    printf("How to Play:\n");
+    printf("\tNavigate through the map using WASD and find the hidden treasury without dying :P\n");
+    printf("\n");
+    printf("Legend:\n");
+    printf("\t[W] => Walls, you cant move trough them\n");
+    printf("\t[+] => Heals, giving you +25 Health\n");
+    printf("\t[?] => Trap or Treasury\n");
+    printf("\t- => The Path; remember where you moved along to avoid enemies\n");
+    printf("\n\n");
+    system("pause");
+    system("clear");
+}
 void printMapTiles(int mapTiles[MAP_SIZE][MAP_SIZE]) {
     for (int x = 0; x < MAP_SIZE; x++) {
         for (int y = 0; y < MAP_SIZE; y++) {
@@ -79,7 +93,7 @@ void placeHeals(int mapTiles[MAP_SIZE][MAP_SIZE]) {
 }
 void placeEnemies(int mapTiles[MAP_SIZE][MAP_SIZE]) {
     int enemiesThisGame = 0;
-    while (enemiesThisGame < MAP_SIZE / 4) {  // Fewer enemies than traps
+    while (enemiesThisGame < MAP_SIZE / 2) {  // Fewer enemies than traps
         int randomRow = rand() % MAP_SIZE;
         int randomCol = rand() % MAP_SIZE;
         if (mapTiles[randomRow][randomCol] == EMPTY) {
@@ -140,7 +154,7 @@ int dofight(int playerHealth) {
         printf("Round %d:\n", round);
         printf("You attack, the enemy takes %i (%i => %i) damage!\n", roundPlayerDamage, enemyHealth, enemyHealth-roundPlayerDamage);
         enemyHealth-=roundPlayerDamage;
-        if (enemyHealth >= 0) {
+        if (enemyHealth > 0) {
             printf("The enemy attacks, you take %i (%i => %i) damage!\n", roundEnemyDamage, playerHealth, playerHealth-roundEnemyDamage);
             playerHealth-=roundEnemyDamage;
         }
@@ -151,8 +165,9 @@ int dofight(int playerHealth) {
 
 int main(void) {
     srand(time(NULL)); // init randomization
-    int playerHealth = 100;
+    printWelcome();
 
+    int playerHealth = 100;
     int mapTiles[MAP_SIZE][MAP_SIZE];
     initializeMap(mapTiles);
     placeWalls(mapTiles);
@@ -192,9 +207,9 @@ int main(void) {
                     playerHealth -= trapDamage;
                     printf("You stepped on a trap! You've received %i damage, remaining health: %i\n", trapDamage, playerHealth);
                     if (playerHealth <= 0) {
-                        system("cls");
+                        // system("cls");
                         printGameOver();
-                        printf("You have been defeated.");
+                        printf("You have been defeated.\n\n");
                         gameRunning = 0;
                     }
                     system("pause");
@@ -211,9 +226,9 @@ int main(void) {
                     int damageFromEnemy = dofight(playerHealth);
                     playerHealth-= damageFromEnemy;
                     if (playerHealth <= 0) {
-                        system("cls");
+                        // system("cls");
                         printGameOver();
-                        printf("You have been defeated.");
+                        printf("You have been defeated.\n\n");
                         gameRunning = 0;
                     } else {
                         printf("Congratulation, you've defeated the enemy!\n");
