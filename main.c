@@ -6,7 +6,7 @@
 #define TRAP_AMOUNT (MAP_SIZE) // more traps as the map size increases
 #define TRAP_DAMAGE_MAX 50
 #define HEAL_AMOUNT 25
-// asd
+
 typedef enum {
     EMPTY = 0,
     WALL = 1,
@@ -17,20 +17,6 @@ typedef enum {
     PLAYER = -1
 } TileType;
 
-void printWelcome() {
-    printf("Welcome to <The Treasury Hunt>\n\n");
-    printf("How to Play:\n");
-    printf("\tNavigate through the map using WASD and find the hidden treasury without dying :P\n");
-    printf("\n");
-    printf("Legend:\n");
-    printf("\t[W] => Walls, you cant move trough them\n");
-    printf("\t[+] => Heals, giving you +25 Health\n");
-    printf("\t[?] => Trap or Treasury\n");
-    printf("\t- => The Path; remember where you moved along to avoid enemies\n");
-    printf("\n\n");
-    system("pause");
-    system("clear");
-}
 void printMapTiles(int mapTiles[MAP_SIZE][MAP_SIZE]) {
     for (int x = 0; x < MAP_SIZE; x++) {
         for (int y = 0; y < MAP_SIZE; y++) {
@@ -118,6 +104,21 @@ void placePlayer(int mapTiles[MAP_SIZE][MAP_SIZE], int *playerRow, int *playerCo
     mapTiles[*playerRow][*playerCol] = PLAYER;  // Set player position
 }
 
+void printWelcome() {
+    printf("Welcome to <The Treasury Hunt>\n\n");
+    printf("How to Play:\n");
+    printf("\tNavigate through the map using WASD and find the hidden treasury without dying :P\n");
+    printf("\n");
+    printf("Legend:\n");
+    printf("\t(^u^) => Your character, move it along the map\n");
+    printf("\t[W] => Walls, you cant move trough them\n");
+    printf("\t[+] => Heals, giving you +25 Health\n");
+    printf("\t[?] => Trap or Treasury\n");
+    printf("\t- => The Path; remember where you moved along to avoid enemies\n");
+    printf("\n\n");
+    system("pause");
+    system("clear");
+}
 void printGameOver() {
     printf(
     "  ######      ###    ##     ## ########     #######  ##     ## ######## ########  \n"
@@ -139,6 +140,7 @@ char getUserInput() {
 int getDamage() {
     return rand() % TRAP_DAMAGE_MAX;
 }
+
 int dofight(int playerHealth) {
     int round = 1;
     int accumulatedDamage = 0;
